@@ -4,16 +4,160 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
-const inquirer = require("inquirer");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+var teamMembers = []
+
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+
+function engineerInfo() {
+    inquirer.prompt([
+    {
+        type: "input",
+        message: "What is your Engineer's name?",
+        name: "name"
+    },
+    {
+        type: "input",
+        message: "What is your Engineer's id?",
+        name: "id"
+    },
+    {
+        type: "input",
+        message: "What is your Engineer's email?",
+        name: "email"
+    },
+    {
+        type: "input",
+        message: "What is your engineer's Github username?",
+        name: "github"
+    },
+    {
+    type: "list",
+    message: "What type of employee would you like to add",
+    name: "employee",
+    choices: ["Intern", "Engineer", "I am done"],
+    }
+]).then(function(answers) {
+const engineer = new Engineer (answers.name, answers.id, answers.email, answers.github)
+teamMembers.push(engineer)
+
+if (answers.employee === "Intern") {
+    internInfo()
+}
+else if (answers.employee === "Engineer") {
+    engineerInfo()
+}
+else if (answers.employee === "I am done") {
+    createHTML()
+    console.log(teamMembers)
+}
+})
+}
+
+function internInfo() {
+    inquirer.prompt([
+    {
+        type: "input",
+        message: "What is your intern's name?",
+        name: "name"
+    },
+    {
+        type: "input",
+        message: "What is your intern's id?",
+        name: "id"
+    },
+    {
+        type: "input",
+        message: "What is your intern's email?",
+        name: "email"
+    },
+    {
+        type: "input",
+        message: "What school does your intern go to?",
+        name: "school"
+    },
+    {
+    type: "list",
+    message: "What type of employee would you like to add",
+    name: "employee",
+    choices: ["Intern", "Engineer", "I am done"],
+    }
+]).then(function(answers) {
+const intern = new Intern (answers.name, answers.id, answers.email, answers.school)
+teamMembers.push(intern)
+if (answers.employee === "Intern") {
+    internInfo()
+}
+else if (answers.employee === "Engineer") {
+    engineerInfo()
+}
+else if (answers.employee === "I am done") {
+    createHTML()
+    console.log(teamMembers)
+}
+})
+}
+
+function managerInfo() {
+    inquirer.prompt([
+    {
+        type: "input",
+        message: "What is your manager's name?",
+        name: "name"
+    },
+    {
+        type: "input",
+        message: "What is your manager's id?",
+        name: "id"
+    },
+    {
+        type: "input",
+        message: "What is your manager's email?",
+        name: "email"
+    },
+    {
+        type: "input",
+        message: "What is your manager's office phone?",
+        name: "phone"
+    },
+    {
+    type: "list",
+    message: "What type of employee would you like to add",
+    name: "employee",
+    choices: ["Intern", "Engineer", "I am done"],
+    }
+]).then(function(answers) {
+const manager = new Manager (answers.name, answers.id, answers.email, answers.phone)
+teamMembers.push(manager)
+if (answers.employee === "Intern") {
+    internInfo()
+    }
+else if (answers.employee === "Engineer") {
+    engineerInfo()
+    }
+else if (answers.employee === "I am done") {
+    createHTML()
+    console.log(teamMembers)
+}
+})
+}
+
+managerInfo()
+
+function createHTML () {
+    if (!fs.existsSync(OUTPUT_DIR)) {
+        fs.mkdirSync(OUTPUT_DIR)
+      }
+    //******  teamMembers in fs.writeFileSync(outPath,render(teamMembers),"utf-8); is the array variable you are pushing team member objects to. IF your array is labeled differently make sure to change it here as well
+      fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
+    }
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will

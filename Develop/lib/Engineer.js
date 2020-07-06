@@ -17,7 +17,4 @@ class Engineer extends Employee {
         }
 }
 
-const engineer = new Engineer ("chris", 2, "email", "cmaffei")
-console.log(engineer)
-
 module.exports = Engineer

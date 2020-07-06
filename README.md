@@ -68,12 +68,10 @@ In addition to `Employee`'s properties and methods, `Intern` will also have:
   * getRole() // Overridden to return 'Intern'
 
 ### User input
-
 The project must prompt the user to build an engineering team. An engineering
 team consists of a manager, and any number of engineers and interns.
 
 ### Roster output
-
 This project generates a `team.html` page in the `output` directory, that displays a nicely formatted team roster. Each team member displays the following in no particular order:
   * Name
   * Role
